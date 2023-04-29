@@ -3,7 +3,7 @@ import { chain } from 'wagmi'
 import { CHAIN, ChainMap } from './chains'
 
 if (!process.env.NEXT_PUBLIC_ALCHEMY_API_KEY) {
-  throw new Error('ALCHEMY_KEY envinronment variable must be defined')
+  throw new Error('ALCHEMY_KEY environment variable must be defined')
 }
 
 export const ALCHEMY_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY

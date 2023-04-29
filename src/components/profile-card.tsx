@@ -1,16 +1,16 @@
 import { Loading } from './form/loading'
 import { ReadySection } from './home/ready-section'
-import { useTalentLayerUserByHandle } from './modules/talentlayer/hooks/use-talent-user-by-handle'
+import { useTalentLayerUserByHandle } from './modules/anywhere/hooks/use-user-by-handle'
 import { Nft } from './nft'
 
 export function ProfileCard({ handle }: { handle: string }) {
-  const { talentLayerUser } = useTalentLayerUserByHandle(handle)
+  const { user } = useTalentLayerUserByHandle(handle)
 
-  if (talentLayerUser === undefined) {
+  if (user === undefined) {
     return <Loading />
   }
 
-  if (talentLayerUser === null) {
+  if (user === null) {
     return (
       <section id="register" className="container py-8 flex items-center justify-center">
         <div className="w-full lg:w-1/2 px-4">

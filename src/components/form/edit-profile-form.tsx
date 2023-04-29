@@ -1,16 +1,16 @@
 import { Button } from '@components/basic/button'
-import { createMultiStepsTransactionToast } from '@components/modules/talentlayer/utils/toast'
+import { createMultiStepsTransactionToast } from '@components/modules/anywhere/utils/toast'
 import { ethers } from 'ethers'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { useEffect } from 'react'
 import { useAccount, useProvider, useSigner } from 'wagmi'
 import * as Yup from 'yup'
 import { Loading } from '../../components/form/loading'
-import { useTalentUserDescription } from '../../components/modules/talentlayer/hooks/use-talent-user-description'
+import { useUserDescription } from '../modules/anywhere/hooks/use-user-description'
 import { useTalentLayerIdContractParams } from '../../hooks/use-contract-params'
 import { postToIPFS } from '../../utils/ipfs'
 import { useLensUser } from '../modules/Lens/hooks/use-lens-user'
-import { useTalentLayerUser } from '../modules/talentlayer/hooks/use-talent-user'
+import { useUser } from '../modules/anywhere/hooks/use-user'
 import { Nft } from '../nft'
 import { SkillsInput } from './skills-input'
 
@@ -29,10 +29,10 @@ const validationSchema = Yup.object({
 export function EditProfileForm() {
   const account = useAccount()
   const { lensUser } = useLensUser(account.address as string)
-  const { talentLayerUser: user, fetchData: refreshTalentLayerUser } = useTalentLayerUser(
+  const { user: user, fetchData: refreshTalentLayerUser } = useUser(
     account.address as string,
   )
-  const userDescription = useTalentUserDescription(user?.id).userDescription
+  const userDescription = useUserDescription(user?.id).userDescription
   const { address: contractAddress, abi, chain } = useTalentLayerIdContractParams()
   const { data: signer } = useSigner({ chainId: chain.id })
   const provider = useProvider({ chainId: chain.id })

@@ -10,7 +10,7 @@ import { copyToClipboard } from '@utils/copy-to-clipboard'
 import { Address } from '../address'
 import { AddressAvatar } from '../address-avatar'
 import { Dropdown, DropdownContent, DropdownTrigger, DropdownItem } from '../basic/dropdown'
-import { useTalentLayerUser } from '@components/modules/talentlayer/hooks/use-talent-user'
+import { useUser } from '@components/modules/anywhere/hooks/use-user'
 import { useRouter } from 'next/router'
 
 interface WalletDropdownProps {
@@ -19,13 +19,13 @@ interface WalletDropdownProps {
 
 export const WalletDropdown = ({ address }: WalletDropdownProps) => {
   const { disconnect } = useDisconnect()
-  const { talentLayerUser } = useTalentLayerUser(address)
+  const { user } = useUser(address)
   const router = useRouter()
 
   return (
     <Dropdown className="inline-flex">
       <DropdownTrigger className="rounded-btn flex items-center gap-2 bg-base-200 py-1.5 px-4 hover:bg-base-300">
-        {talentLayerUser?.handle ? talentLayerUser?.handle : <Address address={address} />}
+        {user?.handle ? user?.handle : <Address address={address} />}
         <AddressAvatar address={address} />
       </DropdownTrigger>
       <DropdownContent className="right-0 mt-2">
@@ -37,7 +37,7 @@ export const WalletDropdown = ({ address }: WalletDropdownProps) => {
           <CopyIcon className="text-lg" />
           Copy address
         </DropdownItem>
-        {talentLayerUser?.handle && (
+        {user?.handle && (
           <DropdownItem
             onClick={() => router.push('/profile/edit')}
             as="button"

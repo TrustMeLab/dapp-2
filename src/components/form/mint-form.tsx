@@ -9,9 +9,9 @@ import * as Yup from 'yup'
 import { Button } from '../basic/button'
 import { useLensUser } from '../modules/Lens/hooks/use-lens-user'
 import { removeExtension } from '../modules/Lens/utils/format'
-import { useTalentLayerUser } from '../modules/talentlayer/hooks/use-talent-user'
-import { createTalentLayerIdTransactionToast } from '../modules/talentlayer/utils/toast'
-import { MintStatus } from '../modules/talentlayer/utils/types'
+import { useUser } from '../modules/anywhere/hooks/use-user'
+import { createTalentLayerIdTransactionToast } from '../modules/anywhere/utils/toast'
+import { MintStatus } from '../modules/anywhere/utils/types'
 import { Nft } from '../nft'
 import { HandlePrice } from './handle-price'
 import { checkEligibility } from './request'
@@ -27,7 +27,7 @@ interface IProps {
 export function MintForm({ mintStatus }: IProps) {
   const account = useAccount()
   const { lensUser } = useLensUser(account.address as string)
-  const { talentLayerUser, fetchData: refreshTalentLayerUser } = useTalentLayerUser(
+  const { user, fetchData: refreshTalentLayerUser } = useUser(
     account.address as string,
   )
   const [error, setError] = useState<string | null>(null)
@@ -135,14 +135,14 @@ export function MintForm({ mintStatus }: IProps) {
         <Form className="flex flex-wrap">
           <div className="w-full px-4 lg:w-1/2">
             <div className="mb-14 max-w-[470px] lg:mb-0">
-              {(validatedMint || talentLayerUser) && (
+              {(validatedMint || user) && (
                 <SuccessMessage
-                  handle={values.handle || validatedMint || talentLayerUser?.handle || 'yourHandle'}
-                  id={talentLayerUser?.id || '1'}
+                  handle={values.handle || validatedMint || user?.handle || 'yourHandle'}
+                  id={user?.id || '1'}
                 />
               )}
 
-              {!talentLayerUser && !validatedMint && account.address && (
+              {!user && !validatedMint && account.address && (
                 <div className="">
                   <h1 className="mb-8 text-4xl  font-semibold leading-tight text-black md:text-[45px] md:leading-tight">
                     <p className="font-bold">Mint Your TalentLayer ID</p>
@@ -261,7 +261,7 @@ export function MintForm({ mintStatus }: IProps) {
           <div className="w-full px-4 max-md:hidden lg:w-1/2">
             <div className="relative z-10 h-[532px] text-center">
               <Nft
-                handle={values.handle || validatedMint || talentLayerUser?.handle || 'yourHandle'}
+                handle={values.handle || validatedMint || user?.handle || 'yourHandle'}
                 fontSize={40}
               />
             </div>
