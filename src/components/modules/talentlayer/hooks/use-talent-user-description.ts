@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getTalentDescriptionUserById } from '../queries/talent-profile-data'
+import { getUserDescriptionById } from '../queries/talent-profile-data'
 import { ITalentUserDetails } from '../utils/types'
 
 export const useTalentUserDescription = (
@@ -11,7 +11,7 @@ export const useTalentUserDescription = (
     const fetchData = async () => {
       try {
         if (!id) return
-        const response = await getTalentDescriptionUserById(id)
+        const response = await getUserDescriptionById(id)
         if (!!response?.data?.data?.user?.description) {
           setUserDescription(response.data.data.user.description)
           return

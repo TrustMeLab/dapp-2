@@ -1,6 +1,6 @@
-import { processTalentLayerRequest } from '../utils/graphql'
+import { processUserRequest } from '../utils/graphql'
 
-export const getTalentLayerUserByAddress = (address: string): Promise<any> => {
+export const getUserByAddress = (address: string): Promise<any> => {
   const query = `
   {
     users(where: {address: "${address.toLocaleLowerCase()}"}, first: 1) {
@@ -10,10 +10,10 @@ export const getTalentLayerUserByAddress = (address: string): Promise<any> => {
     }
   }
   `
-  return processTalentLayerRequest(query)
+  return processUserRequest(query)
 }
 
-export const getTalentLayerUserByhandle = (handle: string): Promise<any> => {
+export const getUserByhandle = (handle: string): Promise<any> => {
   const query = `
   {
     users(where: {handle: "${handle.toLocaleLowerCase()}"}, first: 1) {
@@ -23,10 +23,10 @@ export const getTalentLayerUserByhandle = (handle: string): Promise<any> => {
     }
   }
   `
-  return processTalentLayerRequest(query)
+  return processUserRequest(query)
 }
 
-export const getTalentDescriptionUserById = (id: string): Promise<any> => {
+export const getUserDescriptionById = (id: string): Promise<any> => {
   const query = `
     {
       user(id: "${id}") {
@@ -42,5 +42,5 @@ export const getTalentDescriptionUserById = (id: string): Promise<any> => {
       }
     }
     `
-  return processTalentLayerRequest(query)
+  return processUserRequest(query)
 }

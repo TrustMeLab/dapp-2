@@ -1,5 +1,5 @@
-import { processTalentLayerRequest } from '../utils/graphql'
-import { getTalentLayerUserByAddress } from './talent-profile-data'
+import { processUserRequest } from '../utils/graphql'
+import { getUserByAddress } from './talent-profile-data'
 
 export const graphIsSynced = async (entity: string, cid: string): Promise<number> => {
   return new Promise<number>((resolve) => {
@@ -16,7 +16,7 @@ export const graphIsSynced = async (entity: string, cid: string): Promise<number
 export const graphUserIsSynced = async (address: string): Promise<number> => {
   return new Promise<number>((resolve) => {
     const interval = setInterval(async () => {
-      const response = await getTalentLayerUserByAddress(address)
+      const response = await getUserByAddress(address)
       if (response?.data?.data?.['users'][0]) {
         clearInterval(interval)
         resolve(response?.data?.data?.['users'][0].id)
@@ -42,5 +42,5 @@ export const checkEntityByUri = (entity: string, cid: string): Promise<any> => {
           }
         } `
   }
-  return processTalentLayerRequest(query)
+  return processUserRequest(query)
 }
