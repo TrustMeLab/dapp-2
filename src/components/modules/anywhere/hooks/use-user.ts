@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { getUserByAddress } from '../queries/talent-profile-data'
+import { getUserByAddress } from '../queries/user'
 import { IUser } from '../utils/types'
 
 export const useUser = (

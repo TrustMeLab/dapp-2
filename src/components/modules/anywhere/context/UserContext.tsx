@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 import {IAccount, IUser} from "@types";
-import {getUserByAddress} from "@components/modules/anywhere/queries/talent-profile-data";
+import {getUserByAddress} from "@components/modules/anywhere/queries/user";
 
 const UserContext = createContext<{
   user?: IUser;

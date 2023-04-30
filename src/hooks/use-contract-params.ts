@@ -1,6 +1,6 @@
 import { Chain, useNetwork } from 'wagmi'
 import { TalentLayerIDAbi } from '@abis/talent-layer-id'
-import { TALENTLAYERID_ADDRESS } from '@constants/addresses'
+import { ANYWHERE_ID_ADDRESS } from '@constants/addresses'
 import { CHAIN } from '@constants/chains'
 
 interface IContractParams {
@@ -17,7 +17,7 @@ export const useTalentLayerIdContractParams = (): IContractParams => {
 
   return {
     chain: currentChain,
-    address: TALENTLAYERID_ADDRESS[currentChain.id],
+    address: ANYWHERE_ID_ADDRESS[currentChain.id],
     abi: TalentLayerIDAbi,
   }
 }

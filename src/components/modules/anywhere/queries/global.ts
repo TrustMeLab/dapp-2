@@ -1,5 +1,5 @@
-import { processUserRequest } from '../utils/graphql'
-import { getUserByAddress } from './talent-profile-data'
+import { processRequest } from '../utils/graphql'
+import { getUserByAddress } from './user'
 
 export const graphIsSynced = async (entity: string, cid: string): Promise<number> => {
   return new Promise<number>((resolve) => {
@@ -42,5 +42,5 @@ export const checkEntityByUri = (entity: string, cid: string): Promise<any> => {
           }
         } `
   }
-  return processUserRequest(query)
+  return processRequest(query)
 }

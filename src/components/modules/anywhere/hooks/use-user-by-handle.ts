@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getUserByHandle } from '../queries/talent-profile-data'
+import { getUserByHandle } from '../queries/user'
 import { IUser } from '../utils/types'
 
 export const useTalentLayerUserByHandle = (
