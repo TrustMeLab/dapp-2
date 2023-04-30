@@ -20,6 +20,7 @@ import { GoogleAnalytics } from 'nextjs-google-analytics'
 import SEO from '../../next-seo.config'
 
 import type { AppProps } from 'next/app'
+import UserContext, {UserProvider} from "@components/modules/anywhere/context/UserContext";
 
 const { chains, provider } = configureChains(
   [CHAIN],
@@ -56,10 +57,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       <GoogleAnalytics trackPageViews />
       <DefaultSeo {...SEO} />
       <WagmiConfig client={client}>
-        <ThemeProvider enableSystem={false}>
-          {getLayout(<Component {...pageProps} />)}
-          <ConnectModal open={open} onClose={() => setOpen(false)} />
-        </ThemeProvider>
+        <UserProvider>
+          <ThemeProvider enableSystem={false}>
+            {getLayout(<Component {...pageProps} />)}
+            <ConnectModal open={open} onClose={() => setOpen(false)} />
+          </ThemeProvider>
+        </UserProvider>
       </WagmiConfig>
     </>
   )
