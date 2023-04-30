@@ -4,7 +4,7 @@ export type ChainMap = { [chainId: number]: string }
 
 const getChain = () => {
   if (!process.env.NEXT_PUBLIC_CHAIN) {
-    throw new Error('NEXT_PUBLIC_CHAIN envinronment variable must be defined')
+    throw new Error('NEXT_PUBLIC_CHAIN environment variable must be defined')
   }
 
   switch (process.env.NEXT_PUBLIC_CHAIN) {
@@ -14,6 +14,8 @@ const getChain = () => {
       return chain.polygonMumbai
     case 'polygon':
       return chain.polygon
+    case 'sepolia':
+      return chain.sepolia
     default:
       throw new Error('Invalid NEXT_PUBLIC_CHAIN value')
   }
