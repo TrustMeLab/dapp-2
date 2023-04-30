@@ -21,3 +21,5 @@ export const useTalentLayerIdContractParams = (): IContractParams => {
     abi: TalentLayerIDAbi,
   }
 }
+
+//TODO add for all contracts

@@ -1,15 +1,15 @@
-import { getParsedEthersError } from '@enzoferey/ethers-error-parser'
-import { EthersError } from '@enzoferey/ethers-error-parser/dist/types'
-import { Provider } from '@wagmi/core'
-import { Transaction } from 'ethers'
-import { toast } from 'react-toastify'
-import { graphIsSynced, graphUserIsSynced } from '../queries/global'
-import { MultiStepsTransactionToast } from './multi-steps-transaction-toast'
+import { getParsedEthersError, RETURN_VALUE_ERROR_CODES } from '@enzoferey/ethers-error-parser';
+import { EthersError } from '@enzoferey/ethers-error-parser/dist/types';
+import { Provider } from '@wagmi/core';
+import { Transaction } from 'ethers';
+import { toast } from 'react-toastify';
+import { graphIsSynced, graphUserIsSynced } from '../queries/global';
+import { MultiStepsTransactionToast } from "@components/modules/anywhere/utils/multi-steps-transaction-toast";
 
 interface IMessages {
-  pending: string
-  success: string
-  error: string
+  pending: string;
+  success: string;
+  error: string;
 }
 
 export const createMultiStepsTransactionToast = async (
@@ -19,54 +19,55 @@ export const createMultiStepsTransactionToast = async (
   entity: string,
   newUri: string,
 ): Promise<number | undefined> => {
-  let currentStep = 1
+  let currentStep = 1;
   const toastId = toast(
     <MultiStepsTransactionToast transactionHash={tx.hash as string} currentStep={currentStep} />,
     { autoClose: false, closeOnClick: false },
-  )
+  );
 
+  let receipt;
   try {
-    await provider.waitForTransaction(tx.hash as string)
-    currentStep = 2
+    receipt = await provider.waitForTransaction(tx.hash as string);
+    currentStep = 2;
     toast.update(toastId, {
       render: (
         <MultiStepsTransactionToast transactionHash={tx.hash as string} currentStep={currentStep} />
       ),
-    })
+    });
 
-    const entityId = await graphIsSynced(`${entity}s`, newUri)
-    currentStep = 3
+    const entityId = await graphIsSynced(`${entity}s`, newUri);
+    currentStep = 3;
     toast.update(toastId, {
       render: (
         <MultiStepsTransactionToast transactionHash={tx.hash as string} currentStep={currentStep} />
       ),
-    })
+    });
 
-    await graphIsSynced(`${entity}Descriptions`, newUri)
+    await graphIsSynced(`${entity}Descriptions`, newUri);
     toast.update(toastId, {
       type: toast.TYPE.SUCCESS,
       render: messages.success,
       autoClose: 5000,
       closeOnClick: true,
-    })
+    });
 
-    return entityId
+    return entityId;
   } catch (error) {
-    const parsedEthersError = getParsedEthersError(error as EthersError)
-    console.error(error)
+    const errorMessage = getParsedErrorMessage(error);
+    console.error(error);
     toast.update(toastId, {
       type: toast.TYPE.ERROR,
-      render: `${messages.error}: ${parsedEthersError.errorCode} - ${parsedEthersError.context}`,
-    })
+      render: errorMessage,
+    });
   }
-  return
-}
+  return;
+};
 
 export const showErrorTransactionToast = (error: any) => {
-  console.error(error)
-  const parsedEthersError = getParsedEthersError(error as EthersError)
-  toast.error(`${parsedEthersError.errorCode} - ${parsedEthersError.context}`)
-}
+  console.error(error);
+  const errorMessage = getParsedErrorMessage(error);
+  toast.error(errorMessage);
+};
 
 export const createTalentLayerIdTransactionToast = async (
   messages: IMessages,
@@ -74,7 +75,7 @@ export const createTalentLayerIdTransactionToast = async (
   tx: Transaction,
   address: string,
 ): Promise<number | undefined> => {
-  let currentStep = 1
+  let currentStep = 1;
   const toastId = toast(
     <MultiStepsTransactionToast
       transactionHash={tx.hash as string}
@@ -82,11 +83,12 @@ export const createTalentLayerIdTransactionToast = async (
       hasOffchainData={false}
     />,
     { autoClose: false, closeOnClick: false },
-  )
+  );
 
+  let receipt;
   try {
-    await provider.waitForTransaction(tx.hash as string)
-    currentStep = 2
+    receipt = await provider.waitForTransaction(tx.hash as string);
+    currentStep = 2;
     toast.update(toastId, {
       render: (
         <MultiStepsTransactionToast
@@ -95,25 +97,34 @@ export const createTalentLayerIdTransactionToast = async (
           hasOffchainData={false}
         />
       ),
-    })
+    });
 
-    const entityId = await graphUserIsSynced(address)
+    const entityId = await graphUserIsSynced(address);
 
     toast.update(toastId, {
       type: toast.TYPE.SUCCESS,
       render: messages.success,
       autoClose: 5000,
       closeOnClick: true,
-    })
+    });
 
-    return entityId
+    return entityId;
   } catch (error) {
-    const parsedEthersError = getParsedEthersError(error as EthersError)
-    console.error(error)
+    const errorMessage = getParsedErrorMessage(error);
+    console.error(error);
     toast.update(toastId, {
       type: toast.TYPE.ERROR,
-      render: `${messages.error}: ${parsedEthersError.errorCode} - ${parsedEthersError.context}`,
-    })
+      render: errorMessage,
+    });
   }
-  return
+  return;
+};
+
+function getParsedErrorMessage(error: any) {
+  const parsedEthersError = getParsedEthersError(error as EthersError);
+  if (parsedEthersError.errorCode === RETURN_VALUE_ERROR_CODES.REJECTED_TRANSACTION) {
+    return `${parsedEthersError.errorCode} - user rejected transaction`;
+  } else {
+    return `${parsedEthersError.errorCode} - ${parsedEthersError.context}`;
+  }
 }
