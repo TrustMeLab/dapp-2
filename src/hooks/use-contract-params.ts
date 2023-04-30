@@ -11,7 +11,7 @@ interface IContractParams {
   }
 }
 
-export const useTalentLayerIdContractParams = (): IContractParams => {
+export const useLeaseContractParams = (): IContractParams => {
   const { chain } = useNetwork()
   const currentChain = chain ?? CHAIN
 

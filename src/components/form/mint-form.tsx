@@ -1,5 +1,5 @@
 import { EthersError, getParsedEthersError } from '@enzoferey/ethers-error-parser'
-import { useTalentLayerIdContractParams } from '@hooks/use-contract-params'
+import { useLeaseContractParams } from '@hooks/use-contract-params'
 import { Contract, ethers } from 'ethers'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { ExclamationCircle, InformationCircle } from 'heroicons-react'
@@ -33,7 +33,7 @@ export function MintForm({ mintStatus }: IProps) {
   const [error, setError] = useState<string | null>(null)
   const [validatedMint, setValidatedMint] = useState<string | undefined>('')
   const [isElligible, setIsElligible] = useState(false)
-  const { address, abi, chain } = useTalentLayerIdContractParams()
+  const { address, abi, chain } = useLeaseContractParams()
   const { data: signer } = useSigner({ chainId: chain.id })
   const provider = useProvider({ chainId: chain.id })
   const platformId = process.env.NEXT_PUBLIC_PLATFORM_ID
