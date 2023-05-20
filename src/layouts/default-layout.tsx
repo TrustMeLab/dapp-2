@@ -8,11 +8,9 @@ import { Footer } from '@components/layout/footer'
 
 export const DefaultLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="">
       <Navbar />
-      <main className="flex-1">
-        <Container>{children}</Container>
-      </main>
+      <main className="p-6">{children}</main>
       <Footer />
       <ToastContainer position="bottom-right" />
     </div>

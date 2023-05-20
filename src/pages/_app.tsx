@@ -20,7 +20,8 @@ import { GoogleAnalytics } from 'nextjs-google-analytics'
 import SEO from '../../next-seo.config'
 
 import type { AppProps } from 'next/app'
-import UserContext, {UserProvider} from "@components/modules/anywhere/context/UserContext";
+import UserContext, { UserProvider } from '@components/modules/anywhere/context/UserContext'
+import Layout from '@layouts/Layout'
 
 const { chains, provider } = configureChains(
   [CHAIN],
