@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useAccount } from 'wagmi'
-import { CreateLeaseForm } from '@components/form/create-lease-form'
+import { CreateOpenLeaseForm } from '@components/form/leaseForm/create-open-lease-form'
 
 const Profile: NextPage = () => {
   const account = useAccount()
@@ -18,7 +18,7 @@ const Profile: NextPage = () => {
         Fill in your info now! That way you&rsquo;ll be ready to work on the first platforms on
         TalentLayer.
       </p>
-      {!account?.isConnected ? <p>Please connect your wallet</p> : <CreateLeaseForm />}
+      {!account?.isConnected ? <p>Please connect your wallet</p> : <CreateOpenLeaseForm />}
     </div>
   )
 }

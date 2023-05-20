@@ -1,49 +1,49 @@
-import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
-import { useAccount } from 'wagmi';
-import {IAccount, IUser} from "@types";
-import {getUserByAddress} from "@components/modules/anywhere/queries/user";
+import { createContext, ReactNode, useEffect, useMemo, useState } from 'react'
+import { useAccount } from 'wagmi'
+import { IAccount, IUser } from '@types'
+import { getUserByAddress } from '@components/modules/anywhere/queries/user'
 
 const UserContext = createContext<{
-  user?: IUser;
-  account?: IAccount;
+  user?: IUser
+  account?: IAccount
 }>({
   user: undefined,
   account: undefined,
-});
+})
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<IUser | undefined>();
-  const account = useAccount();
+  const [user, setUser] = useState<IUser | undefined>()
+  const account = useAccount()
 
   useEffect(() => {
     const fetchData = async () => {
       if (!account.address || !account.isConnected) {
-        return;
+        return
       }
 
       try {
-        const response = await getUserByAddress(account.address);
+        const response = await getUserByAddress(account.address)
         if (response?.data?.data?.users[0] !== null) {
-          setUser(response.data.data.users[0]);
+          setUser(response.data.data.users[0])
         }
       } catch (err: any) {
         // eslint-disable-next-line no-console
-        console.error(err);
+        console.error(err)
       }
-    };
-    fetchData();
-  }, [account.address, account.isConnected]);
+    }
+    fetchData()
+  }, [account.address, account.isConnected])
 
   const value = useMemo(() => {
     return {
       user,
       account: account ? account : undefined,
-    };
-  }, [account.address, user?.id]);
+    }
+  }, [user, account])
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
-};
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>
+}
 
-export { UserProvider };
+export { UserProvider }
 
-export default UserContext;
+export default UserContext

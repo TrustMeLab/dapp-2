@@ -21,7 +21,7 @@ import SEO from '../../next-seo.config'
 
 import type { AppProps } from 'next/app'
 import UserContext, { UserProvider } from '@components/modules/anywhere/context/UserContext'
-import Layout from '@layouts/Layout'
+import { Montserrat } from '@next/font/google'
 
 const { chains, provider } = configureChains(
   [CHAIN],
@@ -47,11 +47,16 @@ const client = createClient({
   persister: null,
 })
 
+const montserrat = Montserrat({
+  weight: '400',
+  subsets: ['latin'],
+})
 function MyApp({ Component, pageProps }: AppProps) {
   const [open, setOpen] = useAtom(connectModalAtom)
 
   const getLayout =
-    (Component as ExtendedPage).getLayout || ((page) => <DefaultLayout>{page}</DefaultLayout>)
+    (Component as ExtendedPage).getLayout ||
+    ((page) => <DefaultLayout font={montserrat}>{page}</DefaultLayout>)
 
   return (
     <>
