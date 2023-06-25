@@ -24,7 +24,10 @@ export const Navbar = () => {
         {/*  <button className="text-black px-5 py-3 rounded bg-red-200 font-bold">Search</button>*/}
         {/*</div>*/}
         <nav className="flex flex-row">
-          <a className="flex items-center px-2 py-2 text-base font-medium rounded-md" href="/about">
+          <a
+            className="flex items-center px-2 py-2 text-base font-medium rounded-md"
+            href="/lease/create"
+          >
             Post Housing add
           </a>
           <a

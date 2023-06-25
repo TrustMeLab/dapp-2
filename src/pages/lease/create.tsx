@@ -1,7 +1,9 @@
 import { useContext, useState } from 'react'
 import UserContext from '@components/modules/anywhere/context/UserContext'
-import { CreateOpenLeaseForm } from '@components/form/leaseForm/create-open-lease-form'
+import { CreateOpenLeaseForm } from '@components/form/lease-form/create-open-lease-form'
 import { Container } from '@components/layout/container'
+import Stepper from '@components/form/lease-form/Stepper'
+import { CreateSimpleOpenLeaseForm } from '@components/form/simple-lease-form/create-open-lease-simple-form'
 
 function CreateOrganization() {
   const { account, user } = useContext(UserContext)
@@ -14,7 +16,7 @@ function CreateOrganization() {
             Create <span className="bg-clip-text text-red-500">an open lease</span>
           </p>
 
-          {account?.isConnected && user && <CreateOpenLeaseForm />}
+          {account?.isConnected && user && <CreateSimpleOpenLeaseForm />}
         </div>
       </Container>
     </>

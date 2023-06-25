@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useAccount } from 'wagmi'
-import { CreateOpenLeaseForm } from '@components/form/leaseForm/create-open-lease-form'
+import { CreateOpenLeaseForm } from '@components/form/lease-form/create-open-lease-form'
 
 const Profile: NextPage = () => {
   const account = useAccount()

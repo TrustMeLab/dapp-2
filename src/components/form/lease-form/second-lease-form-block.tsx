@@ -1,17 +1,5 @@
-import { Button } from '@components/basic/button'
-import { createMultiStepsTransactionToast } from '@components/modules/anywhere/utils/toast'
-import { ethers } from 'ethers'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import { useContext, useEffect } from 'react'
-import { useAccount, useProvider, useSigner } from 'wagmi'
 import * as Yup from 'yup'
-import { Loading } from '../loading'
-import { useLeaseContractParams } from '@hooks/use-contract-params'
-import { postToIPFS } from '@utils/ipfs'
-import { useUser } from '../../modules/anywhere/hooks/use-user'
-import { Nft } from '../../nft'
-import { SkillsInput } from '../skills-input'
-import UserContext from '@components/modules/anywhere/context/UserContext'
 
 interface IFormValues {
   paymentAmount?: string
@@ -32,17 +20,7 @@ const validationSchema = Yup.object({
   //TODO to complete
   userId: Yup.string().required('userId is required'),
 })
-
-export function CreateOpenLeaseForm() {
-  const { user } = useContext(UserContext)
-  const { address: leaseContractAddress, abi, chain } = useLeaseContractParams()
-  const { data: signer } = useSigner({ chainId: chain.id })
-  const provider = useProvider({ chainId: chain.id })
-
-  if (!user?.handle) {
-    return <Loading />
-  }
-
+const SecondLeaseFormBlock = () => {
   const initialValues: IFormValues = {
     paymentAmount: '',
     paymentToken: '',
@@ -53,54 +31,10 @@ export function CreateOpenLeaseForm() {
     cid: '',
   }
 
-  const onSubmit = async (
-    values: IFormValues,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void },
-  ) => {
-    if (user && signer) {
-      try {
-        const leaseContract = new ethers.Contract(
-          leaseContractAddress,
-          abi,
-          signer as ethers.Signer,
-        )
-        //TODO parse rentAmount
-        //TODO parse interval
-        //TODO parse startDate
-
-        const tx = await leaseContract.createOpenLease(
-          user.id,
-          values.paymentAmount,
-          values.paymentToken,
-          values.paymentInterval,
-          values.currencyPair,
-          values.startDate,
-          values.platformId,
-        )
-        // await createMultiStepsTransactionToast(
-        //   {
-        //     pending: 'Updating profile...',
-        //     success: 'Congrats! Your profile has been updated',
-        //     error: 'An error occurred while updating your profile',
-        //   },
-        //   provider,
-        //   tx,
-        //   'user',
-        //   cid,
-        // )
-
-        setSubmitting(false)
-      } catch (error) {
-        console.error(error)
-        // showErrorTransactionToast(error);
-      }
-    }
-  }
-
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={onSubmit}
+      // onSubmit={onSubmit}
       validationSchema={validationSchema}
       enableReinitialize={true}
     >
@@ -200,3 +134,5 @@ export function CreateOpenLeaseForm() {
     </Formik>
   )
 }
+
+export default SecondLeaseFormBlock
